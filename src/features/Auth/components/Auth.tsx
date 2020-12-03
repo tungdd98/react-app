@@ -1,7 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import cookie from "js-cookie";
-import axios from "utils/axios";
 import { AuthContextType, AuthContextProviderType } from "../types";
 
 export const AuthContext = createContext<AuthContextType>({
@@ -9,9 +7,6 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 const AuthContextProvider = (props: AuthContextProviderType) => {
-  const history = useHistory();
-  axios(history);
-
   const [isSignIn, setSignIn] = useState(false);
 
   useEffect(() => {

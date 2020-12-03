@@ -1,27 +1,32 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import cookie from "js-cookie";
-import AuthenticateApi from "../../apis/authenticate";
-import { AuthContext } from "../../AuthProvider";
+import { AuthContext } from "features/Auth/components/Auth";
+import AuthApi from "../../apis/auth";
+import { LoginType } from "../../types";
 
-interface LoginProps {}
-
-const Login: React.FC = (props: LoginProps) => {
+const Login: React.FC<LoginType> = ({ history }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const accessToken = useSelector(
     (state: any) => state.authenticate.accessToken
   );
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { isSignin } = useContext(AuthContext);
+  const { isSignIn } = useContext(AuthContext);
+
   const handleLogin = async (e: any) => {
     e.preventDefault();
     if (!email || !password) {
       return;
     }
+
+    const res = await AuthApi.login({ email, password });
+    if (res.success) {
+      cookie.set("token", accessToken);
+    }
   };
 
-  if (isSignin) {
+  if (isSignIn) {
     return <Redirect to="/" />;
   }
 
@@ -63,4 +68,4 @@ const Login: React.FC = (props: LoginProps) => {
   );
 };
 
-export default Login;
+export default withRouter(Login);

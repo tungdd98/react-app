@@ -1,8 +1,6 @@
 import React from "react";
 
-interface Props {}
-
-const Home = (props: Props) => {
+const Home: React.FC = () => {
   return <div>Home page</div>;
 };
 
