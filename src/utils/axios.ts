@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import { useHistory } from "react-router-dom";
 
 const axiosInstance = axios.create({
   baseURL: "https://reqres.in/api",
@@ -26,24 +25,7 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   (error: AxiosError) => {
-    const history = useHistory();
-    switch (error.response && error.response.status) {
-      case 401:
-        history.replace({
-          pathname: "/",
-        });
-        break;
-      case 404:
-        history.replace({
-          pathname: "/404",
-        });
-        break;
-      default:
-        history.replace({
-          pathname: "/not-found",
-        });
-        break;
-    }
+    //
     return Promise.reject(error);
   }
 );

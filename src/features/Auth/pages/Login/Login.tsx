@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, withRouter } from "react-router-dom";
 import cookie from "js-cookie";
-import { AuthContext } from "features/Auth/components/Auth";
 import AuthApi from "../../apis/auth";
 import { LoginType } from "../../types";
 
@@ -12,7 +11,6 @@ const Login: React.FC<LoginType> = ({ history }) => {
   const accessToken = useSelector(
     (state: any) => state.authenticate.accessToken
   );
-  const { isSignIn } = useContext(AuthContext);
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -22,11 +20,11 @@ const Login: React.FC<LoginType> = ({ history }) => {
 
     const res = await AuthApi.login({ email, password });
     if (res.success) {
-      cookie.set("token", accessToken);
+      cookie.set("token", res.token || "");
     }
   };
 
-  if (isSignIn) {
+  if (accessToken) {
     return <Redirect to="/" />;
   }
 

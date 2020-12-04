@@ -14,6 +14,7 @@ export type RouteTypes = {
   path: string;
   component: ComponentType<RouteComponentProps>;
   exact?: boolean;
+  private?: boolean;
 };
 
 export type SignInType = {
@@ -22,7 +23,9 @@ export type SignInType = {
 };
 
 export type SignInResponse = {
-  token?: string;
+  token: string;
+  success: boolean;
+  message: string;
 };
 
 export type LoginType = {

@@ -12,6 +12,7 @@ const AuthApi = {
 
       return {
         success: true,
+        token: res.token,
       };
     } catch (e) {
       return {

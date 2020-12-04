@@ -1,18 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { AuthContext } from "./Auth";
+import { useSelector } from "react-redux";
 import { RouteTypes } from "../types";
 
 const PrivateRoute: React.FC<RouteTypes> = ({
   component: Component,
   ...rest
 }) => {
-  const { isSignIn } = useContext(AuthContext);
+  const accessToken = useSelector(
+    (state: any) => state.authenticate.accessToken
+  );
   return (
     <Route
       {...rest}
       render={(routeProps) =>
-        isSignIn ? <Component {...routeProps} /> : <Redirect to="/login" />
+        accessToken ? <Component {...routeProps} /> : <Redirect to="/login" />
       }
     />
   );
